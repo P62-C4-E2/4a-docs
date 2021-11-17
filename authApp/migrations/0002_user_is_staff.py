@@ -2,6 +2,8 @@
 
 from django.db import migrations, models
 
+# Esta es una clase auto generada por el framework de desarrollo al usar el comando python manage.py makemigrations y python manage.py migrate
+# Se genera el modelo Usuario, que además le da permisos de superusuario al agregar los atributos is_staff e is_admin
 
 class Migration(migrations.Migration):
 
