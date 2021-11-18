@@ -1,3 +1,6 @@
+#Para el propósito del sistema, se tendra la entidad usuario (User) esta entidad usuario representará los datos personales del usuario.
+
+
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, UserManager
 from django.contrib.auth.hashers import make_password
