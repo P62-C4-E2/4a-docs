@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from datetime import timedelta
+from datetime import timedelta #importar librería datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+#la configuración a realizar es indicarle a Simple JWT los atributos que se desea que tengan los tokens
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,13 +44,13 @@ INSTALLED_APPS = [
 ]
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),#los token access tendrán una duración de 5minutos 
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1), #los token refresh tendrán una duración de 1 día
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,
     'UPDATE_LAST_LOGIN': False,
-    'ALGORITHM': 'HS256',
-    'USER_ID_FIELD': 'id',
+    'ALGORITHM': 'HS256',#Algoritmo que estamos utilizando
+    'USER_ID_FIELD': 'id',#campos que se van asociar a la llave primaria
     'USER_ID_CLAIM': 'user_id',
 }
 
@@ -62,12 +63,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-REST_FRAMEWORK = {
+#Como vamos a utilizar el token como sistema de autenticación tenemos que hacer estas dos configuraciones 
+REST_FRAMEWORK = {#La primera configuración que se debe realizar es indicarle al sistema de autenticación provisto por Django
+                  #REST Framework que permita a Simple JWT el acceso a dicho sistema
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.AllowAny',#La clase de permiso AllowAny permitirá el acceso sin restricciones,
+                                              #independientemente de si la solicitud fue autenticada o no 
     ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': (  #ESTO ESTA DICIENDO QUE SIMPLE JWT SE VA A ENCARGAR DE LA AUTENTICACION 
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
@@ -98,6 +101,7 @@ WSGI_APPLICATION = 'authProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+#aqui configuramos nuestra base de datos 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
