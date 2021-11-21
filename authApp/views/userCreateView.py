@@ -3,15 +3,21 @@ from rest_framework.response import Response
 from rest_framework.serializers import Serializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
+# Vista que gestiona la creación de los usuarios para la aplicación
 from authApp.serializers.userSerializer import UserSerializer
+
+
 class UserCreateView(views.APIView):
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        tokenData = {"username":request.data["username"],
-        "password":request.data["password"]}
+        tokenData = {
+            "username": request.data["username"],
+            "password": request.data["password"],
+        }
 
         tokenSerializer = TokenObtainPairSerializer(data=tokenData)
         tokenSerializer.is_valid(raise_exception=True)
