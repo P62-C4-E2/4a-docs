@@ -20,7 +20,7 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.save(using=self._db)
         return user
-
+#Se crea modelo de usuario, con los atributos respectivos:
 class User(AbstractBaseUser, PermissionsMixin):
     documento_options = [
         ('cc', 'CC'),
