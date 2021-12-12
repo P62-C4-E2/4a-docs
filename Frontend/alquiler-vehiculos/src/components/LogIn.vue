@@ -1,28 +1,65 @@
 <template>
     <div class="center">
         <h1>Login</h1>
-        <form method="post">
+        <form v-on:submit.prevent="processLogInUser">
             <div class="txt_field">
-                <input type="text" required>
+                <input type="text" v-model="user.username">
                 <span></span>
                 <label>Username</label>
             </div>
             <div class="txt_field">
-                <input type="password" required>
+                <input type="password" v-model="user.password">
                 <span></span>
                 <label>Contraseña</label>
             </div>
             <button type="submit">Iniciar Sesión</button>
-            <div class="signUp_link">
-                ¿Aún no estás registrado? <a href="#">Regístrate</a>
-            </div>
         </form>
     </div>
 </template>
 
 <script>
+import gql from "graphql-tag";
 export default {
     name: "logIn",
+
+    data: function(){
+        return {
+            user: {
+                username: "",
+                password: "",
+            },
+        };
+    },
+    methods: {
+        processLogInUser: async function() {
+            await this.$apollo
+                .mutate({
+                    mutation: gql `
+                        mutation($credentials: CredentialsInput!) {
+                            logIn(credentials: $credentials) {
+                                refresh
+                                access
+                            }
+                        }
+                    `,
+                    variables: {
+                        credentials: this.user,
+                    },
+                })
+                .then((result) =>{
+                    let dataLogIn = {
+                        username: this.user.username,
+                        token_access: result.data.logIn.access,
+                        token_refresh: result.data.logIn.refresh,
+                    };
+
+                    this.$emit("completedLogIn", dataLogIn);
+                })
+                .catch((error) => {
+                    alert("ERROR 401: Credenciales Incorrectas.");
+                });
+        },
+    },
 }
 </script>
 
@@ -31,8 +68,7 @@ export default {
         margin: 0;
         padding: 0;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        /*background: linear-gradient(70deg, black, white);*/
-        background-image: url('../assets/background-image1.jpeg');
+        background-image: url('../assets/lamborghini_image.jpeg');
         width:100%;		
         height:100%;			
         position:fixed;
@@ -123,6 +159,7 @@ export default {
         font-weight: 700;
         cursor: pointer;
         outline: none;
+        margin: 10px;
     }
 
     button[type="submit"]:hover{
@@ -130,22 +167,6 @@ export default {
         transition: .5s;
         color:rgb(0, 0, 51);
         background: white;
-    }
-
-    .signUp_link{
-        margin: 30px;
-        text-align: center;
-        font-size: 16px;
-        color: black;
-    }
-
-    .signUp_link a{
-        color: #2691d9;
-        text-decoration: none;
-    }
-
-    .signUp_link a:hover{
-        text-decoration: underline;
     }
     
 </style>

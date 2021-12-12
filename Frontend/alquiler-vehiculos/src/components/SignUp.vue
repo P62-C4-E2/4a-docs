@@ -1,44 +1,53 @@
 <template>
   <div class="signUp_container">
     <h1>Registro</h1>
-    <form method="post">
+    <form v-on:submit.prevent="processSignUp">
       <div class="wrapper">
         <div class="user_text_field">
-          <input type="text" placeholder="Username" />
+          <input type="text" v-model="user.username" placeholder="Username" />
         </div>
         <div class="password_text_field">
-          <input type="password" placeholder="Password"/>
+          <input
+            type="password"
+            v-model="user.password"
+            placeholder="Password"
+          />
         </div>
         <div class="nombres_text_field">
-          <input type="text" placeholder="Nombres"/>
+          <input type="text" v-model="user.nombres" placeholder="Nombres" />
         </div>
         <div class="apellidos_text_field">
-          <input type="text" placeholder="Apellidos"/>
+          <input type="text" v-model="user.apellidos" placeholder="Apellidos" />
         </div>
         <div class="email_text_field">
-          <input type="email" placeholder="email" />
-        </div>
-        <div class="tdoc_text_field">
-          <input type="text" required placeholder="Tipo Documento"/>
+          <input type="email" v-model="user.email" placeholder="email" />
         </div>
         <div class="doc_text_field">
-          <input type="text" placeholder="No. Documento"/>
+          <input
+            type="text"
+            v-model="user.documento"
+            placeholder="No. Documento"
+          />
         </div>
         <div class="bday_text_field">
-            <label>Fecha de Nacimiento</label><br>
-            <input type="date" required />
-        </div>
+          <label>Fecha de Nacimiento</label><br />
+          <input type="date" v-model="user.fecha_nto" />
+        </div> 
         <div class="tel_text_field">
-          <input type="tel" placeholder="Teléfono"/>
+          <input type="tel" v-model="user.telefono" placeholder="Teléfono" />
         </div>
         <div class="lic_text_field">
-          <input type="text" placeholder="No. Licencia" />
+          <input
+            type="text"
+            v-model="user.lic_cond"
+            placeholder="No. Licencia"
+          />
         </div>
         <div class="licdate_text_field">
-            <label>Fecha de Expedición</label><br>
-            <input type="date" required />
+          <label>Fecha de Expedición</label><br />
+          <input type="date" v-model="user.exped_lic" />
         </div>
-      </div>
+      </div> 
 
       <button type="submit">Registrarse</button>
     </form>
@@ -46,6 +55,59 @@
 </template>
 
 <script>
+import gql from "graphql-tag";
+export default {
+  name: "signUp",
+  data: function () {
+    return {
+      user: {
+        username: "",
+        password: "",
+        nombres: "",
+        apellidos: "",
+        email: "",
+        tipo_documento: "CC", 
+        documento: "",
+        fecha_nto: "",
+        telefono: "",
+        lic_cond: "",
+        exped_lic: "",
+      },
+    };
+  
+  },
+  methods: {
+    processSignUp: async function () {
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation ($userInput: SignUpInput!) {
+              signUpUser(userInput: $userInput) {
+                refresh
+                access
+              }
+            }
+          `,
+          variables: {
+            userInput: this.user,
+          },
+        })
+        .then((result) => {
+          let dataLogIn = {
+            username: this.user.username,
+            token_access: result.data.signUpUser.access,
+            token_refresh: result.data.signUpUser.refresh,
+          };
+          
+
+          this.$emit("completedSignUp", dataLogIn);
+        })
+        .catch((error) => {
+          alert("ERROR: Fallo en el registro.");
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -68,10 +130,10 @@ body {
   border-radius: 20px;
 }
 
-.signUp_container h1{
-    text-align: center;
-    justify-content: center;
-    border-bottom: 1px solid #adadad;
+.signUp_container h1 {
+  text-align: center;
+  justify-content: center;
+  border-bottom: 1px solid #adadad;
 }
 
 .wrapper {
@@ -85,7 +147,7 @@ body {
 }
 
 .username_text_field {
-  grid-column: 2/3;
+  grid-column: 1/3;
   grid-row: 1;
 }
 
@@ -105,31 +167,27 @@ body {
   grid-column: 2/3;
   grid-row: 2;
 }
-.tdoc_text_field {
+.doc_text_field {
   grid-column: 3/3;
   grid-row: 2;
 }
-.doc_text_field {
+.bday_text_field {
   grid-column: 1/3;
   grid-row: 3;
-}
-.bday_text_field {
-  grid-column: 2/3;
-  grid-row: 3;
-  transform: translate(0, -21px);
+  transform: translate(0, -8px);
 }
 
 .tel_text_field {
-  grid-column: 3/3;
+  grid-column: 2/3;
   grid-row: 3;
 }
 .lic_text_field {
-  grid-column: 1/3;
-  grid-row: 4;
+  grid-column: 3/3;
+  grid-row: 3;
 }
 .licdate_text_field {
-  grid-column: 2/3;
+  grid-column: 1/3;
   grid-row: 4;
-  transform: translate(0, -21px);
-}
+  transform: translate(0, -8px);
+} 
 </style>
