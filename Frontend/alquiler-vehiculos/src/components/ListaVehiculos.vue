@@ -1,9 +1,10 @@
-<template>
+<template slot="actions" slot-scope="data">
   <h2>Elija uno de nuestros vehiculos para más información:</h2>
   <div class="contenedor_vehiculos">
     <ul v-for="vehiculo in vehiculos" :key="vehiculo.id">
       <div class="vehiculo_item">
         <li>
+          <img :src="vehiculo.image_URL">
           <h4>
             Nombre: <span>{{ vehiculo.nombre }}</span>
           </h4>
@@ -18,7 +19,7 @@
               >/día</strong
             >
           </p>
-          <button v-on:click="loadDetails">Ver Detalles</button>
+          <button v-on:click="loadDetails(vehiculoId)">Ver Detalles</button>
         </li>
       </div>
     </ul>
@@ -35,7 +36,7 @@ export default {
   data: {
     function() {
       return {
-        vehiculoId: vehiculo_id,
+        vehiculoId: vehiculo.id,
         vehiculos: {
             id:"",
             nombre: "",
@@ -69,69 +70,93 @@ export default {
   },
 
   methods: {
-    loadDetails: function () {
-      this.$router.push({ name: "detallesVehiculo" });
-    },
+    loadDetails(vehiculo){
+      this.$router.push({
+        name: "detallesVehiculo",
+        params: {vehiculoId: vehiculo.id}
+      })
+    }
   },
 };
 </script>
 
 <style>
-.contenedor_vehiculos {
-  align-content: center;
-  justify-content: center;
+.contenedor_vehiculos .vehiculo_item{
   display: grid;
-  grid-template-columns: repeat(4, 280px);
-  grid-auto-rows: 180px;
+  grid-auto-rows: minmax(50px, auto);
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+  height: 270px;
+  justify-items: center;
+}
+ul{
+  justify-items: center;
 }
 
-.contenedor_vehiculos .vehiculo_item {
-  background: url("../assets/FordRaptor.jpg");
-  background-size: 100%;
-  width: 250px;
-  padding: 5px;
-  margin: 10px;
-  height: 120px;
+.contenedor_vehiculos .vehiculo_item ul{
+  justify-items: center;
+}
+
+.contenedor_vehiculos .vehiculo_item li{
+  display: grid;
+  grid-template-columns: repeat(1, 500px);
+  grid-auto-rows: minmax(30px, auto);
+  list-style: none;
+  background: rgb(0, 0, 51);
+  width: 800px;
+  margin-left: 250px;
+  transform: scale(1);
+  transition: transform .2s;
+  border-radius:25px;
+}
+.contenedor_vehiculos .vehiculo_item li:hover{
+  transform: scale(1.2);
+}
+.contenedor_vehiculos .vehiculo_item li img {
+  grid-column: 1/2;
   align-content: center;
   justify-content: center;
+  margin: 10px;
+  width: 350px;
+  height: 250px;
+  border-radius: 15px;
 }
 
-.contenedor_vehiculos .vehiculo_item li {
-  text-decoration: none;
-  list-style: none;
+.contenedor_vehiculos .vehiculo_item li p, h4 {
+  grid-column: 2/2;
+  color: white;
+  text-align: justify;
+  text-justify: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.contenedor_vehiculos .vehiculo_item p,
-h4 {
-  margin: 3.5px;
+.contenedor_vehiculos .vehiculo_item li p, h4, button {
+  align-items: center;
+  justify-content: center;
+  grid-column: 2/2;
+  align-content: space-around;
+}
+
+.contenedor_vehiculos .vehiculo_item li button{
   margin-top: 15px;
-  text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  color: white;
+  margin-bottom: 15px;
+  position: relative;
+  width: 80%;
 }
 
-.contenedor_vehiculos .vehiculo_item span::before {
-  color: white;
-  text-decoration: none;
-}
-
-.contenedor_vehiculos .vehiculo_item h4 span:hover {
-  color: blue;
-  text-decoration: underline;
-}
-
-.contenedor_vehiculos .vehiculo_item button {
+button {
   color: white;
   background: rgb(0, 0, 51);
   border: 3px solid gray;
   border-radius: 20px;
   padding: 10px 20px;
-  position: relative;
-  align-items: center;
+  margin: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bold;
 }
 
-.contenedor_vehiculos .vehiculo_item button:hover {
+button:hover {
   color: rgb(0, 0, 51);
   background: white;
   border: 3px solid rgb(0, 0, 51);

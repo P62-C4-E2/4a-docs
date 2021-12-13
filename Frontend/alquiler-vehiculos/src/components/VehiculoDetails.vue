@@ -1,6 +1,7 @@
 <template>
   <h2>{{ vehiculoById.nombre }}</h2>
 </template>
+
 <script>
 import gql from "graphql-tag";
 export default {
@@ -8,7 +9,7 @@ export default {
 
   data: function () {
     return {
-      VehiculoId: vehiculo_id,
+      VehiculoId: vehiculo.id,
       vehiculoById: {
         nombre: "",
         placa: "",

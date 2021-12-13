@@ -1,7 +1,7 @@
 <template>
     <div class="information">
         <h1>¡Bienvenido <span>{{userDetailById.nombres}}</span>!</h1>
-        
+        <button v-on:click="loadUserDetails">Historial de Reservas</button>
     </div>    
 </template>
 

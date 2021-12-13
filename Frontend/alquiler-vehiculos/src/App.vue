@@ -83,9 +83,15 @@ export default {
       alert("Sesión Cerrada");
       this.verifyAuth();
     },
-    loadDetails: function(){
-          this.$router.push({ name: "detallesVehiculo" });
+    loadDetails: function(vehiculos){
+      this.$router.push({
+        name: "detallesVehiculo",
+        params: {vehiculoId: vehiculos.id}
+      })
     },
+    loadUserDetails: function(){
+      this.$router.push({name: "reservasByUser"})
+    }
   },
 
   created: function () {
