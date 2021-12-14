@@ -1,6 +1,8 @@
 <template>
     <div class="information">
-        <h1>¡Bienvenido <span>{{userDetailById.nombres}}</span>!</h1>
+        <h1>¡Bienvenido <span>{{userDetailById.username}}</span>!</h1>
+        <h2>Tu nombre: <span>{{userDetailById.nombres}}</span></h2>
+        <p>Tu correo Registrado: <span>{{userDetailById.email}}</span></p>
         <button v-on:click="loadUserDetails">Historial de Reservas</button>
     </div>    
 </template>
@@ -11,7 +13,9 @@ import jwt_decode from "jwt-decode";
 export default {
   name: "home",
   methods: {
-      
+      loadUserDetails: function(){
+      this.$router.push({name: "reservasByUser"})
+    }
   },
   
   data: function(){
@@ -46,5 +50,20 @@ export default {
 };
 </script>
 <style>
+.information{
+    color: rgb(0, 0, 51);
+    justify-content: center;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.information p{
+    font-size: 40px;
+}
+
+.information span:hover{
+    text-decoration: underline;
+    color: blue;
+}
 
 </style>

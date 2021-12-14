@@ -63,11 +63,53 @@ export default {
     },
   },
 
-  created:function(){
-      this.$apollo.queries.AlquilerByUsername.refetch();
-  }
 };
 </script>
 
 <style>
+#Historial{
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+#Historial .container-table{
+    width: 80%;
+    max-height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+#Historial table{
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+#Historial table td,
+#Historial table th {
+    border: 1px solid #ddd;
+    color: white;
+    padding: 8px;
+}
+
+#Historial table tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+#Historial table tr:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#Historial h2 {
+    color: rgb(0, 0 , 51);
+}
+
+#Historial h2 span:hover{
+    text-decoration: underline;
+    color: blue;
+}
 </style>

@@ -140,7 +140,8 @@ body {
   border: 3px solid gray;
   border-radius: 20px;
   padding: 10px 20px;
-  margin: 10px;
+  margin: 15px;
+  margin-right: 30px;
 }
 
 .header nav button:hover {
