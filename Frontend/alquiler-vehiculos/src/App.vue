@@ -18,6 +18,7 @@
         v-on:completedSignUp="completedSignUp"
         v-on:logOut="logOut"
         v-on:loadDetails="loadDetails"
+        v-on:loadAdminPage="loadAdminPage"
       ></router-view>
     </div>
 
@@ -46,6 +47,10 @@ export default {
 
       if (this.is_auth == false) this.$router.push({ name: "logIn" });
       else this.$router.push({ name: "home" });
+    },
+
+    loadAdminPage: function(){
+      this.$router.push({name: 'adminPage'});
     },
 
     loadLogIn: function () {

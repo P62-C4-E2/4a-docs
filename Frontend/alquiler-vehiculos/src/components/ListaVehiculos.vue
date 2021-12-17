@@ -19,7 +19,7 @@
               >/día</strong
             >
           </p>
-          <button v-on:click="loadDetails(vehiculoId)">Ver Detalles</button>
+          <button :id="vehiculo.id" v-on:click="loadDetails(vehiculoId)">Ver Detalles</button>
         </li>
       </div>
     </ul>
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-
 import gql from "graphql-tag";
 
 export default {
@@ -70,10 +69,10 @@ export default {
   },
 
   methods: {
-    loadDetails(vehiculo){
+    loadDetails(vehiculoId){
       this.$router.push({
         name: "detallesVehiculo",
-        params: {vehiculoId: vehiculo.id}
+        params: vehiculoId,
       })
     }
   },

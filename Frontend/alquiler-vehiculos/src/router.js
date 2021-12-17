@@ -7,6 +7,9 @@ import Home from './components/Home.vue';
 import ListaVehiculos from './components/ListaVehiculos.vue';
 import VehiculoDetails from './components/VehiculoDetails.vue';
 import Historial from './components/Historial.vue';
+import Alquiler from './components/Alquiler.vue';
+import Admin from './components/Admin.vue';
+import VehiculosAdmin from './components/VehiculosAdmin.vue';
 
 const routes = [{
   path: '/',
@@ -42,6 +45,21 @@ const routes = [{
   path: `/user/reservas`,
   name: 'reservasByUser',
   component: Historial
+},
+{
+  path: '/user/reservas/nuevaReserva',
+  name: 'alquiler',
+  component: Alquiler
+},
+{
+  path: '/user/admin',
+  name: 'adminPage',
+  component: Admin
+},
+{
+  path: '/user/admin/vehiculos',
+  name: 'vehiculosAdmin',
+  component: VehiculosAdmin
 }
 ]
 

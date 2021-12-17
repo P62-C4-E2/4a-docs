@@ -4,6 +4,7 @@
       <h2>
         Cliente: <span>{{ username }}</span>
       </h2>
+      
     </div>
     <h2>Alquileres realizados</h2>
     <div class="container-table">

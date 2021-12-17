@@ -3,7 +3,10 @@
         <h1>¡Bienvenido <span>{{userDetailById.username}}</span>!</h1>
         <h2>Tu nombre: <span>{{userDetailById.nombres}}</span></h2>
         <p>Tu correo Registrado: <span>{{userDetailById.email}}</span></p>
+        <button v-on:click="nuevaReserva">Nuevo Alquiler</button>
         <button v-on:click="loadUserDetails">Historial de Reservas</button>
+        <button v-show="userDetailById.is_staff" v-on:click="loadAdminPage">Página Administración</button>
+        
     </div>    
 </template>
 
@@ -15,7 +18,13 @@ export default {
   methods: {
       loadUserDetails: function(){
       this.$router.push({name: "reservasByUser"})
-    }
+    },
+    nuevaReserva: function(){
+        this.$router.push({name: "alquiler"})
+    },
+    loadAdminPage: function() {
+        this.$router.push({name: 'adminPage'})
+    },
   },
   
   data: function(){
@@ -25,6 +34,7 @@ export default {
               username: "",
               nombres: "",
               email: "",
+              is_staff: ""
           },
       };
   },
@@ -37,6 +47,7 @@ export default {
                     username
                     nombres
                     email
+                    is_staff
                 }
             }
           `,
